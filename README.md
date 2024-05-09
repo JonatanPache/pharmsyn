@@ -1,4 +1,5 @@
-# t_store
+# PharmsynApp
+This project is developing for the subject SW2 and TG.
 
 
 ## Getting Started
