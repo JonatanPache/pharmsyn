@@ -25,3 +25,7 @@ Multidex support is required for your android app to build since the number of m
     Flutter tool can add multidex support. The following file will be added by flutter:
 
 SOLUTION: Run this command `fvm flutter run --multidex`
+
+
+
+
