@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: TSizes.spaceBtwSections),
 
                   // searchbar
-                  TSearchContainer(text: 'Search in store'),
+                  TSearchContainer(text: 'Buscar en la tienda'),
                   SizedBox(height: TSizes.spaceBtwSections),
 
                   // categories
@@ -64,8 +64,8 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // promo slider
-                  const TPromoSlider(),
-                  const SizedBox(height: TSizes.spaceBtwSections),
+                  // const TPromoSlider(),
+                  // const SizedBox(height: TSizes.spaceBtwSections),
 
                   // heading
                   TSectionHeading(

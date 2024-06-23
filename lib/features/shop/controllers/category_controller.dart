@@ -3,6 +3,7 @@ import 'package:t_store/data/repositories/categories/category_repository.dart';
 import 'package:t_store/data/repositories/product/product_repository.dart';
 import 'package:t_store/features/shop/models/category_model.dart';
 import 'package:t_store/features/shop/models/product_model.dart';
+import 'package:t_store/utils/constants/data_dummy.dart';
 import 'package:t_store/utils/popups/loaders.dart';
 
 class CategoryController extends GetxController {
@@ -60,8 +61,10 @@ class CategoryController extends GetxController {
   Future<List<ProductModel>> getCategoryProducts(
       {required String categoryId, int limit = 4}) async {
     // fetch limited 4 products against each subCategory
-    final products = await ProductRepository.instance
-        .getProductsForCategory(categoryId: categoryId, limit: limit);
+    // final products = await ProductRepository.instance
+        // .getProductsForCategory(categoryId: categoryId, limit: limit);
+    List<ProductModel> products =
+    DataDummy.products.where((producto) => producto.categoryId == categoryId).toList();
     return products;
   }
 }
