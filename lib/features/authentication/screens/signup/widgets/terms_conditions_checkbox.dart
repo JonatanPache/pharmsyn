@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:t_store/features/authentication/controllers/signup/signup_controller.dart';
@@ -13,6 +14,33 @@ class TTermsAndConditionsCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = SignupController.instance;
     final dark = THelperFunctions.isDarkMode(context);
+
+
+    void _showPrivacyPolicyDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PrivacyPolicyAndTermsDialog(
+            title: TTexts.privacyPolicyitle,
+            content: TTexts.privacyPolicyContent,
+          );
+        },
+      );
+    }
+
+    void _showTermsOfUseDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PrivacyPolicyAndTermsDialog(
+            title: TTexts.termOfUseTitle,
+            content: TTexts.termOfUseContent,
+          );
+        },
+      );
+    }
+
+
     return Row(
       children: [
         SizedBox(
@@ -42,6 +70,8 @@ class TTermsAndConditionsCheckbox extends StatelessWidget {
                       decoration: TextDecoration.underline,
                       decorationColor: dark ? TColors.white : TColors.primary,
                     ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = _showPrivacyPolicyDialog,
               ),
               TextSpan(
                 text: ' ${TTexts.and} ',
@@ -55,6 +85,8 @@ class TTermsAndConditionsCheckbox extends StatelessWidget {
                   decoration: TextDecoration.underline,
                   decorationColor: dark ? TColors.white : TColors.primary,
                 ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = _showTermsOfUseDialog,
               ),
             ],
 
@@ -64,3 +96,36 @@ class TTermsAndConditionsCheckbox extends StatelessWidget {
     );
   }
 }
+
+
+class PrivacyPolicyAndTermsDialog extends StatelessWidget {
+  final String title;
+  final String content;
+
+  PrivacyPolicyAndTermsDialog({required this.title, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      content: SingleChildScrollView(
+        child: Text(
+          content,
+          textAlign: TextAlign.justify,
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text('Cerrar'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+}
+
