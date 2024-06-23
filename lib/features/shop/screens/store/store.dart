@@ -55,7 +55,7 @@ class StoreScreen extends StatelessWidget {
                       /// Search Bar
                       const SizedBox(width: TSizes.spaceBtwItems),
                       const TSearchContainer(
-                        text: 'Search in Store',
+                        text: 'Escribe tus sintomas',
                         showBorder: true,
                         showBackground: false,
                         padding: EdgeInsets.zero,
@@ -63,38 +63,38 @@ class StoreScreen extends StatelessWidget {
                       const SizedBox(width: TSizes.spaceBtwSections),
 
                       /// Featured brands
-                      TSectionHeading(
-                        title: 'Featured Brands',
-                        onPressed: () {},
-                      ),
-                      const SizedBox(height: TSizes.spaceBtwItems / 1.5),
+                      // TSectionHeading(
+                      //   title: 'Featured Brands',
+                      //   onPressed: () {},
+                      // ),
+                      // const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
                       /// Brands grid
-                      Obx(() {
-                        if (brandController.isLoading.value) {
-                          return const TBrandShimmer();
-                        }
-
-                        if (brandController.featuredBrands.isEmpty) {
-                          return Center(
-                            child: Text(
-                              'No data found!',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .apply(color: Colors.white),
-                            ),
-                          );
-                        }
-                        return TGridLayout(
-                          itemCount: brandController.featuredBrands.length,
-                          mainAxisExtent: 80,
-                          itemBuilder: (_, index) {
-                            final brand = brandController.featuredBrands[index];
-                            return TBrandCard(showBorder: true, brand: brand);
-                          },
-                        );
-                      })
+                      // Obx(() {
+                      //   if (brandController.isLoading.value) {
+                      //     return const TBrandShimmer();
+                      //   }
+                      //
+                      //   if (brandController.featuredBrands.isEmpty) {
+                      //     return Center(
+                      //       child: Text(
+                      //         'No data found!',
+                      //         style: Theme.of(context)
+                      //             .textTheme
+                      //             .bodyMedium!
+                      //             .apply(color: Colors.white),
+                      //       ),
+                      //     );
+                      //   }
+                      //   return TGridLayout(
+                      //     itemCount: brandController.featuredBrands.length,
+                      //     mainAxisExtent: 80,
+                      //     itemBuilder: (_, index) {
+                      //       final brand = brandController.featuredBrands[index];
+                      //       return TBrandCard(showBorder: true, brand: brand);
+                      //     },
+                      //   );
+                      // })
                     ],
                   ),
                 ),

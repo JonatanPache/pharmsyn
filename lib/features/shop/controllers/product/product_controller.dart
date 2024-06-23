@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:t_store/data/repositories/product/product_repository.dart';
 import 'package:t_store/features/shop/models/product_model.dart';
+import 'package:t_store/utils/constants/data_dummy.dart';
 import 'package:t_store/utils/constants/enums.dart';
 import 'package:t_store/utils/popups/loaders.dart';
 
@@ -25,8 +26,8 @@ class ProductController extends GetxController {
       isLoading.value = true;
 
       // fetch categories from data source
-      final products = await productRepository.getFeaturedProducts();
-
+      // final products = await productRepository.getFeaturedProducts();
+      final products = DataDummy.products.take(4);
       // assign products
       featuredProducts.assignAll(products);
     } catch (e) {

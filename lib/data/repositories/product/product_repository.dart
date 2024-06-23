@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:t_store/data/services/firebase_storage_service.dart';
 import 'package:t_store/features/shop/models/product_model.dart';
+import 'package:t_store/utils/constants/data_dummy.dart';
 import 'package:t_store/utils/constants/enums.dart';
 import 'package:t_store/utils/exceptions/firebase_exception.dart';
 import 'package:t_store/utils/exceptions/format_exceptions.dart';
@@ -17,7 +18,7 @@ class ProductRepository extends GetxController {
   /// Function to get limited featured products
   Future<List<ProductModel>> getFeaturedProducts() async {
     try {
-      final snapshot = await _db.collection('Product').where('IsFeatured', isEqualTo: true).limit(4).get();
+      final snapshot = await _db.collection('Drugs').where('IsFeatured', isEqualTo: true).limit(4).get();
       return snapshot.docs.map((document) => ProductModel.fromSnapshot(document)).toList();
     } on TFirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
@@ -33,8 +34,9 @@ class ProductRepository extends GetxController {
   /// Function to get featured products
   Future<List<ProductModel>> getAllFeaturedProducts() async {
     try {
-      final snapshot = await _db.collection('Product').where('IsFeatured', isEqualTo: true).get();
-      return snapshot.docs.map((document) => ProductModel.fromSnapshot(document)).toList();
+      // final snapshot = await _db.collection('Product').where('IsFeatured', isEqualTo: true).get();
+      // return snapshot.docs.map((document) => ProductModel.fromSnapshot(document)).toList();
+      return DataDummy.products;
     } on TFirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on TFormatException catch (_) {
