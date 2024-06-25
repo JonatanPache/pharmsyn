@@ -6,17 +6,49 @@ import 'package:t_store/common/widgets/brands/brand_card.dart';
 import 'package:t_store/common/widgets/custom_shapes/containers/search_container.dart';
 import 'package:t_store/common/widgets/layouts/grid_layout.dart';
 import 'package:t_store/common/widgets/products/cart/cart_menu_icon.dart';
+import 'package:t_store/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:t_store/common/widgets/shimmers/brand_shimmer.dart';
 import 'package:t_store/common/widgets/texts/section_heading.dart';
 import 'package:t_store/features/shop/controllers/brand_controller.dart';
 import 'package:t_store/features/shop/controllers/category_controller.dart';
+import 'package:t_store/features/shop/models/category_model.dart';
+import 'package:t_store/features/shop/models/product_model.dart';
 import 'package:t_store/features/shop/screens/store/widgets/category_tab.dart';
 import 'package:t_store/utils/constants/colors.dart';
+import 'package:t_store/utils/constants/data_dummy.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
 
-class StoreScreen extends StatelessWidget {
+class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key});
+
+  @override
+  State<StoreScreen> createState() => _StoreScreenState();
+}
+
+class _StoreScreenState extends State<StoreScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  bool isSearching = false;
+  List<ProductModel> allProducts = DataDummy.products;
+  List<ProductModel> filteredProducts = [];
+
+  void _searchProducts(String query) {
+    final searchTerm = query.trim().toLowerCase();
+    if (searchTerm.isNotEmpty) {
+      setState(() {
+        filteredProducts = allProducts
+            .where((product) =>
+                product.description!.toLowerCase().contains(searchTerm))
+            .toList();
+        isSearching = true;
+      });
+    } else {
+      setState(() {
+        filteredProducts = allProducts;
+        isSearching = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,47 +86,19 @@ class StoreScreen extends StatelessWidget {
                     children: [
                       /// Search Bar
                       const SizedBox(width: TSizes.spaceBtwItems),
-                      const TSearchContainer(
+                      TSearchContainer(
                         text: 'Escribe tus sintomas',
                         showBorder: true,
                         showBackground: false,
                         padding: EdgeInsets.zero,
+                        controller: _searchController,
+                        onTap: () {
+                          _searchProducts(_searchController.text);
+                        },
+                        // onSubmitted: (value) {
+                        //   _searchProducts(value);
+                        // },
                       ),
-                      const SizedBox(width: TSizes.spaceBtwSections),
-
-                      /// Featured brands
-                      // TSectionHeading(
-                      //   title: 'Featured Brands',
-                      //   onPressed: () {},
-                      // ),
-                      // const SizedBox(height: TSizes.spaceBtwItems / 1.5),
-
-                      /// Brands grid
-                      // Obx(() {
-                      //   if (brandController.isLoading.value) {
-                      //     return const TBrandShimmer();
-                      //   }
-                      //
-                      //   if (brandController.featuredBrands.isEmpty) {
-                      //     return Center(
-                      //       child: Text(
-                      //         'No data found!',
-                      //         style: Theme.of(context)
-                      //             .textTheme
-                      //             .bodyMedium!
-                      //             .apply(color: Colors.white),
-                      //       ),
-                      //     );
-                      //   }
-                      //   return TGridLayout(
-                      //     itemCount: brandController.featuredBrands.length,
-                      //     mainAxisExtent: 80,
-                      //     itemBuilder: (_, index) {
-                      //       final brand = brandController.featuredBrands[index];
-                      //       return TBrandCard(showBorder: true, brand: brand);
-                      //     },
-                      //   );
-                      // })
                     ],
                   ),
                 ),
@@ -108,13 +112,27 @@ class StoreScreen extends StatelessWidget {
           },
 
           /// Body
-          body: TabBarView(
-            children: categories
-                .map((category) => TCategoryTab(category: category))
-                .toList(),
-          ),
+          body: isSearching
+              ? Expanded(
+                  child: TGridLayout(
+                    itemCount: filteredProducts.length,
+                    itemBuilder: (_, index) => TProductCardVertical(
+                      product: filteredProducts[index],
+                    ),
+                  ),
+                )
+              : TabBarView(
+                  children: categories.map((category) {
+                    return _buildCategoryTab(category);
+                  }).toList(),
+                ),
         ),
       ),
     );
+  }
+
+  Widget _buildCategoryTab(CategoryModel category) {
+    // Aquí puedes construir las pestañas de categorías como lo hacías antes
+    return TCategoryTab(category: category);
   }
 }
